@@ -17,6 +17,29 @@ path {
 }
 
 
+#howToDiv{
+    position: absolute;
+    border: solid 2px #000;
+    width: 500px;
+    height: 500px;
+    z-index: 10;
+    margin-left: 35%;
+    margin-top: 5%;
+    background-color: rgba(50, 50, 50, 0.95);
+    visibility: hidden;
+}
+
+.howToText{
+    color: white;
+    opacity: 1;
+    font-size: 15px;
+    margin-left: 5px;
+    margin-top: 5px;
+
+}
+
+
+
 .individual-tooltip{
     padding: 5px;
     width: 130px;
@@ -57,7 +80,6 @@ path {
 #banner{
     height: 10%;
     width: 100%;
-    display: block;
     background-color: #BEBEBE;
 }
 

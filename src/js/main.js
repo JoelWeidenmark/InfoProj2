@@ -1,6 +1,6 @@
 var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
     height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
+var helpToggle = true;
 var selectedWave = "wave1";
 var filterArray = [0, 0];
 var activeButtons = [0, 0];
@@ -340,7 +340,7 @@ function drawLegend(data){
     legend.append("g")
       .attr("class", "legendLinear")
       .attr('align', 'center')
-      .attr("transform", "translate(70,20)");
+      .attr("transform", "translate(5,20)");
 
     if(filterArray[1] != 0 && otherActive == false){
         var legendLinear = d3.legendColor()
@@ -450,6 +450,7 @@ function setWave(wave){
     prepData();
 }
 
+
 function switchMode(mode){
     if(mode != 'importanceMode'){
         document.getElementById('importanceQuestions').classList.add("d-none");
@@ -495,4 +496,20 @@ function addEventListeners(){
   document.getElementById("wave2").onclick = function() {setWave('wave2')};
   document.getElementById("wave3").onclick = function() {setWave('wave3')};
   document.getElementById("wave4").onclick = function() {setWave('wave4')};
+
+  document.getElementById("howTo").onclick = function() {toggleHelp()};
+}
+
+function toggleHelp(){
+    
+    if(helpToggle){
+        document.getElementById('howToDiv').style.visibility = 'visible';
+        helpToggle = false;
+    }
+    else{
+        document.getElementById('howToDiv').style.visibility = 'hidden';
+        helpToggle = true;
+    }
+    
+
 }
