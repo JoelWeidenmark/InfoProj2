@@ -211,7 +211,7 @@ function drawMap(world, data) {
         })
         .attr("d", path)
         .style("fill", function (d) {
-            if(filterArray[1] == 0){
+            if(filterArray[1] == 0 || otherActive){
                 return d.details && d.details.yes ? colorSingle(d.details.yes) : undefined;
             }
             else{
@@ -258,41 +258,45 @@ function drawLegend(data){
     let legendTitle = 'Which is more important?';
     let legendLeft = '';
     let legendRight= '';
+    let colorMode = '';
+    console.log(otherQuestion)
     if(otherActive){
+        console.log(otherQuestion)
         if(otherQuestion == 'Life_Satisfaction'){
-            legendTitle = "Life Satisfaction"
+            legendTitle = "Average Life Satisfaction"
             legendLeft = '0'
-            legendRight = '10'
+            legendRight = '100'
         }
         else if(otherQuestion == 'Men_Rather_Than_Women'){
-            legendTitle = "When jobs are scarce, Men should have more rights to a job than Women?"
+            legendTitle = "When jobs are scarce, Men should have more rights to jobs than Women?"
             legendLeft = 'Disagree'
             legendRight = 'Agree'
         }
         else if(otherQuestion == 'Religious_Person'){
-            legendTitle = "Life Satisfaction"
-            legendLeft = '0'
-            legendRight = '10'
+            legendTitle = "Percentage of people seeing themselves as Religious"
+            legendLeft = '0%'
+            legendRight = '100%'
         }
     }
     else{
-        if(filterArray[0] != 0){
+        if(filterArray[0] != 0 && filterArray[1] == 0){
             var legendText1 = filterArray[0].replace(/Important/g, '');
             legendText1 = legendText1.replace(/_/, '');
             legendText1 = legendText1.replace(/_/, ' ');
             legendTitle = 'How important is ' + legendText1 + '?';
+            legendLeft = 'Not Important';
+            legendRight = 'Very Important';
         }
-        if(filterArray[1] != 0){
+        else if(filterArray[0] != 0 && filterArray[1] != 0){
+            var legendText1 = filterArray[0].replace(/Important/g, '');
+            legendText1 = legendText1.replace(/_/, '');
+            legendText1 = legendText1.replace(/_/, ' ');
+
             var legendText2 = filterArray[1].replace(/Important/g, '');
             legendText2 = legendText2.replace(/_/, '');
             legendText2 = legendText2.replace(/_/, ' ');
         }
     }
-
-    
-    
-    legendLeft = legendText1;
-    legendRight = legendText2;
 
     d3.select('#legendContainer').selectAll('svg').remove();
     var legend = d3.select('#legendContainer')
@@ -306,7 +310,7 @@ function drawLegend(data){
       .attr("class", "legendLinear")
       .attr("transform", "translate(20,20)");
 
-    if(filterArray[1] != 0){
+    if(filterArray[1] != 0 && otherActive == false){
         var legendLinear = d3.legendColor()
             .shapeWidth(30)
             .cells(20)
@@ -373,6 +377,7 @@ function setFilter(filter, button){
 function setOtherButtons(question){
     otherActive = true;
     otherQuestion = question;
+    drawLegend();
     prepData();
 
 }
