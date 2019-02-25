@@ -15,6 +15,30 @@ path {
     stroke-width: 0.25px;
     fill: #808080;
 }
+
+
+.individual-tooltip{
+    padding: 5px;
+    width: 130px;
+    height: 60px;
+    background-color: darkgrey;
+    border: solid 1px #000;
+    border-radius: 3px;
+}
+
+#wrapper{
+    margin-top: 5px;
+}
+
+#secondQuestion{
+    opacity: 1;
+}
+
+
+.titleText{
+    font-size: 30px;
+    margin-top: 20px;
+}
 .details {
     top: 0px;
     visibility: hidden;
@@ -30,13 +54,24 @@ path {
     text-align: center;
 }
 
+#banner{
+    height: 10%;
+    width: 100%;
+    display: block;
+    background-color: #BEBEBE;
+}
+
 
 #wrapper{
     height: 100%;
 }
 
+#resetButton{
+    margin-top: 10%;
+}
+
 .questionFilterButton{
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     width: 100%;
 }
 

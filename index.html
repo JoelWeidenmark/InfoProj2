@@ -8,29 +8,34 @@
     <link rel="stylesheet" href="stylesheet.css" type="text/css">
 </head>
 <body>
+    <div id="banner" class="col-12 border">
+        <p class="titleText">
+            IVIS 19 - Proj 2
+        </p>
+    </div>
     <div id="wrapper" class="col-12 container">
         <div id="top" class="row h-70">
             <div id="mapContainer" class="col-8">
-                <div id="waveContainer" class="col-12 border pt-2 pb-2 " align="center">
+                <div id="waveContainer" class="col-12 pt-2 pb-2 " align="center">
                     <button id="wave1" type="button" class="btn btn-secondary waveButton clickedButton">1995 - 1999</button>
                     <button id="wave2" type="button" class="btn btn-secondary waveButton">2000 - 2004</button>
                     <button id="wave3" type="button" class="btn btn-secondary waveButton">2005 - 2009</button>
                     <button id="wave4" type="button" class="btn btn-secondary waveButton">2010 - 2014</button>
                 </div>
-                <div id="map" class="col-12 border">
+                <div id="map" class="col-12 border-top border-left border-right">
                 
                 </div>
-                <div id="legendContainer" class="col-12 border">
+                <div id="legendContainer" class="col-12 border-bottom border-right border-left" align="center">
                 </div>
             </div>
             
-            <div id="filteringContainer" class="col-4 border">
-                <div id="buttons" class="col-12" align="center">
-                    <button type="button" class="btn btn-primary">Importance in Life</button>
-                    <button type="button" class="btn btn-secondary">Other Questions</button>
+            <div id="filteringContainer" class="col-4">
+                <div id="buttons" class="col-12 pt-2 pb-2" align="center">
+                    <button id="importanceMode" type="button" class="btn btn-secondary clickedButton">Importance in Life</button>
+                    <button id="otherMode" type="button" class="btn btn-secondary">Other Questions</button>
                 </div>
-                <div id="importanceQuestions" class="row h-50 col-12">
-                    <div id="firstQuestion" class="col-6 border mt-2">
+                <div id="importanceQuestions" class="row h-50 mt-5">
+                    <div id="firstQuestion" class="col-6 border-right mt-2">
                         <button id="q1Family" type="button" class="btn btn-secondary questionFilterButton">Family</button>
                         <button id="q1Friends" type="button" class="btn btn-secondary questionFilterButton">Friends</button>
                         <button id="q1LeisureTime" type="button" class="btn btn-secondary questionFilterButton">Leisure Time</button>
@@ -38,27 +43,28 @@
                         <button id="q1Religion" type="button" class="btn btn-secondary questionFilterButton">Religion</button>
                         <button id="q1Work" type="button" class="btn btn-secondary questionFilterButton">Work</button>
                     </div>
-                    <div id="secondQuestion" class="col-6 border mt-2">
+                    <div id="secondQuestion" class="col-6 border-left mt-2">
                         <button id="q2Family" type="button" class="btn btn-secondary questionFilterButton">Family</button>
                         <button id="q2Friends" type="button" class="btn btn-secondary questionFilterButton">Friends</button>
                         <button id="q2LeisureTime" type="button" class="btn btn-secondary questionFilterButton">Leisure Time</button>
                         <button id="q2Politics" type="button" class="btn btn-secondary questionFilterButton">Politics</button>
                         <button id="q2Religion" type="button" class="btn btn-secondary questionFilterButton">Religion</button>
                         <button id="q2Work" type="button" class="btn btn-secondary questionFilterButton">Work</button>
-                    </div>
-                    <div id="resetButton" class="col-12 mt-2 w-100 " align="center">
-                        <button id="resetButton" type="button" class="btn btn-primary">Reset</button>
-                    </div>
+                    </div>                    
                 </div>
-                <div id="otherQuestions" class="row h-50 col-12">
-                    <div id="questionButtons" class="col-12 border mt-2">
+                <div id="otherQuestions" class="row h-50 col-12 d-none">
+                    <div id="questionButtons" class="col-12 mt-5">
                         <button id="lifeSatisButton" type="button" class="btn btn-secondary questionFilterButton">Life Satisfaction</button>
                         <button id="menWomenButton" type="button" class="btn btn-secondary questionFilterButton">Men Rather Than Women in Jobs</button>
                         <button id="religPersonButton" type="button" class="btn btn-secondary questionFilterButton">Religious Person</button>
                     </div>
                 </div>
+                <div id="resetButton" class="col-12" align="center">
+                    <button id="resetButton" type="button" class="btn btn-primary">Reset</button>
+                </div>
             </div>
         </div>
+        <!--
         <div id="bottom" class="row">
             <div id="detailContainer" class="col-12 border">
                 Other shit
@@ -67,7 +73,7 @@
                 <p class="females"></p>
                 <p class="males"></p>
             </div>
-        </div>
+        </div>-->
     </div>    
 
    

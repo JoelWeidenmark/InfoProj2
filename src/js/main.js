@@ -5,7 +5,8 @@ var selectedWave = "wave1";
 var filterArray = [0, 0];
 var activeButtons = [0, 0];
 var buttonIds = ['q1Family', 'q1Friends', 'q1LeisureTime', 'q1Politics', 'q1Religion', 'q1Work',
-                'q2Family', 'q2Friends', 'q2LeisureTime', 'q2Politics', 'q2Religion', 'q2Work'];
+                'q2Family', 'q2Friends', 'q2LeisureTime', 'q2Politics', 'q2Religion', 'q2Work',
+                'lifeSatisButton', 'menWomenButton', 'religPersonButton'];
 var otherQuestion = "Life_Satisfaction";
 var otherActive = false;
 
@@ -24,6 +25,12 @@ var svg;
 var map;
 var jsonData;
 var zoom;
+
+
+var divTooltip = d3.select("#map").append("div")     // Define the div for the tooltip
+    .attr("class", "individual-tooltip")                
+    .style("opacity", 0)
+    .style("position", 'absolute');
 
 
 function start(){
@@ -67,7 +74,6 @@ resetMap();
 
 function makeSenseOfData(data){
     var orderedData = 0;
-
     if(otherActive){
         if(otherQuestion == "Life_Satisfaction"){
             for(var i = 1; i <= 10; i++){
@@ -110,7 +116,9 @@ function makeSenseOfData(data){
 
     
     //console.log(orderedData)
-    return orderedData
+
+    return Math.round(orderedData * 10 ) / 10;
+    //return orderedData
 }
 
 
@@ -129,7 +137,6 @@ function prepData(){
             console.error('Oh dear, something went wrong: ' + error);
         }
         else {
-            console.log('Ojdå')
             drawMap(world, data[selectedWave]);
         }
     });
@@ -165,18 +172,31 @@ function drawMap(world, data) {
 
 
     for(var item in data){
-        if(data[item][filterArray[0]] == null || data[item][otherQuestion] == null){
-            printData[item] = {
-                yes: 0
+        if(otherActive){
+            if(data[item][otherQuestion] == null){
+                printData[item] = {
+                    yes: 0
+                }
             }
+            else{
+                printData[item] = {
+                    yes: makeSenseOfData(data[item])
+                }
+            }
+
         }
         else{
-            printData[item] = {
-                yes: makeSenseOfData(data[item])
+            if(data[item][filterArray[0]] == null){
+                printData[item] = {
+                    yes: 0
+                }
+            }
+            else{
+                printData[item] = {
+                    yes: makeSenseOfData(data[item])
+                }
             }
         }
-        
-            //console.log(data[item])
     }
 
     
@@ -220,6 +240,15 @@ function drawMap(world, data) {
             
         })
         .on('mouseover', function (d) {
+            divTooltip.transition()     
+                .duration(200)
+                .style('visibility', "visible")
+                .style("opacity", .85);
+            divTooltip.html(d.properties.name + "</br>" + d.details.yes)  
+                .style("left", (d3.event.pageX - 10) + "px")     
+                .style("top", (d3.event.pageY - 120) + "px")
+                .style("position", "absolute");
+
             d3.select(this)
                 .style("stroke", "white")
                 .style("stroke-width", 1)
@@ -241,6 +270,10 @@ function drawMap(world, data) {
             console.log('ahsilasldlaskla')
         })
         .on('mouseout', function (d) {
+            divTooltip.transition()     
+                .duration(500)
+                .style("opacity", 0)
+                .style('visibility', "hidden");
             d3.select(this)
                 .style("stroke", null)
                 .style("stroke-width", 0.25);
@@ -259,16 +292,14 @@ function drawLegend(data){
     let legendLeft = '';
     let legendRight= '';
     let colorMode = '';
-    console.log(otherQuestion)
     if(otherActive){
-        console.log(otherQuestion)
         if(otherQuestion == 'Life_Satisfaction'){
             legendTitle = "Average Life Satisfaction"
             legendLeft = '0'
             legendRight = '100'
         }
         else if(otherQuestion == 'Men_Rather_Than_Women'){
-            legendTitle = "When jobs are scarce, Men should have more rights to jobs than Women?"
+            legendTitle = "When jobs are scarce, should Men have more rights to jobs than Women?"
             legendLeft = 'Disagree'
             legendRight = 'Agree'
         }
@@ -301,14 +332,15 @@ function drawLegend(data){
     d3.select('#legendContainer').selectAll('svg').remove();
     var legend = d3.select('#legendContainer')
         .append("svg")
-        .attr('width', width)
+        .attr('width', '100%')
         .attr('height', 110);
 
     //var svg = d3.select("svg");
 
     legend.append("g")
       .attr("class", "legendLinear")
-      .attr("transform", "translate(20,20)");
+      .attr('align', 'center')
+      .attr("transform", "translate(70,20)");
 
     if(filterArray[1] != 0 && otherActive == false){
         var legendLinear = d3.legendColor()
@@ -357,7 +389,10 @@ function resetMap(){
 
 function setFilter(filter, button){
     d3.select('.map').selectAll('g').transition().duration(1000).remove()
+    otherActive = false;
     if(filter.slice(-1) == "1"){
+        document.getElementById('secondQuestion').style.opacity = 1;
+        document.getElementById('secondQuestion').style.pointerEvents = 'auto';
         filterArray[0] = filter.slice(0, -1);
         activeButtons[0] = button;
         setButtonColors(button);
@@ -374,7 +409,14 @@ function setFilter(filter, button){
     
 }
 
-function setOtherButtons(question){
+function setOtherButtons(question, button){
+    d3.select('.map').selectAll('g').transition().duration(1000).remove();
+    document.getElementById('secondQuestion').style.opacity = 0.5;
+    document.getElementById('secondQuestion').style.pointerEvents = 'none';
+    activeButtons[0] = button;
+    activeButtons[1] = 0;
+    filterArray = [0, 0]
+    setButtonColors(button)
     otherActive = true;
     otherQuestion = question;
     drawLegend();
@@ -385,17 +427,18 @@ function setOtherButtons(question){
 function setButtonColors(clickedButton){
     for(var button in buttonIds){
         document.getElementById(buttonIds[button]).classList.remove("clickedButton");
-        document.getElementById(buttonIds[button]).classList.add("unClickedButton");
+        //document.getElementById(buttonIds[button]).classList.add("unClickedButton");
     }
     for(var button in activeButtons){
         if(activeButtons[button]){
-            document.getElementById(activeButtons[button]).classList.remove("unClickedButton");
+            //document.getElementById(activeButtons[button]).classList.remove("unClickedButton");
             document.getElementById(activeButtons[button]).classList.add("clickedButton");
         }
     }
 }
 
 function setWave(wave){
+    d3.select('.map').selectAll('g').transition().duration(1000).remove();
     selectedWave = wave;
 
     for(var button in waveButtonIds){
@@ -405,6 +448,24 @@ function setWave(wave){
     document.getElementById(selectedWave).classList.remove("unClickedButton");
     document.getElementById(selectedWave).classList.add("clickedButton");
     prepData();
+}
+
+function switchMode(mode){
+    if(mode != 'importanceMode'){
+        document.getElementById('importanceQuestions').classList.add("d-none");
+        document.getElementById('otherQuestions').classList.remove("d-none");
+        document.getElementById("importanceMode").classList.remove("clickedButton");
+        document.getElementById("otherMode").classList.add("clickedButton");
+
+        
+    }
+    else{
+        document.getElementById('otherQuestions').classList.add("d-none");
+        document.getElementById('importanceQuestions').classList.remove("d-none");
+        document.getElementById("otherMode").classList.remove("clickedButton");
+        document.getElementById("importanceMode").classList.add("clickedButton");    
+    }
+    
 }
 
 function addEventListeners(){
@@ -423,9 +484,12 @@ function addEventListeners(){
 
   document.getElementById("resetButton").onclick = function() {resetMap()};
 
-  document.getElementById("lifeSatisButton").onclick = function() {setOtherButtons("Life_Satisfaction")};
-  document.getElementById("menWomenButton").onclick = function() {setOtherButtons("Men_Rather_Than_Women")};
-  document.getElementById("religPersonButton").onclick = function() {setOtherButtons("Religious_Person")};
+  document.getElementById("importanceMode").onclick = function() {switchMode('importanceMode')};
+  document.getElementById("otherMode").onclick = function() {switchMode('otherMode')};
+
+  document.getElementById("lifeSatisButton").onclick = function() {setOtherButtons("Life_Satisfaction", "lifeSatisButton")};
+  document.getElementById("menWomenButton").onclick = function() {setOtherButtons("Men_Rather_Than_Women", "menWomenButton")};
+  document.getElementById("religPersonButton").onclick = function() {setOtherButtons("Religious_Person", "religPersonButton")};
 
   document.getElementById("wave1").onclick = function() {setWave('wave1')};
   document.getElementById("wave2").onclick = function() {setWave('wave2')};
