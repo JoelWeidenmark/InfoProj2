@@ -84,6 +84,8 @@ path {
     height: 10%;
     width: 100%;
     background-color: #BEBEBE;
+    margin: 0px;
+    border-bottom: solid 1px #ABABAB;
 }
 
 
@@ -111,6 +113,12 @@ path {
 
 .waveButton{
     margin-left: 10px;
+}
+
+
+#descoveryProcessWrapper{
+    height: 600px;
+    width: 100%;
 }
 
 /*
