@@ -57,6 +57,9 @@ path {
     opacity: 1;
 }
 
+#howTo{
+    margin-top: 20px;
+}
 
 .titleText{
     font-size: 30px;
