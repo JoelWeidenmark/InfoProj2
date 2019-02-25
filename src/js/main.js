@@ -252,7 +252,7 @@ function drawMap(world, data) {
             d3.select(this)
                 .style("stroke", "white")
                 .style("stroke-width", 1)
-                .style("cursor", "pointer");
+                .style("cursor", "default");
             d3.select(".country")
                 .text(d.properties.name);
 
