@@ -1,13 +1,14 @@
 * {
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
+    font-family: "Helvetica", "Arial", sans-serif
 }
 h1, h2, h3, h4, h5, h6 {
     color: #444444;
     font-weight: 100;
 }
 body {
-    background-color: #71808F;
+    background-color: #f3f3f3;
     margin: 0px;
+    height: 100vh;
 }
 path {
     stroke: white;
@@ -28,3 +29,39 @@ path {
 .center {
     text-align: center;
 }
+
+
+#wrapper{
+    height: 100%;
+}
+
+.questionFilterButton{
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.clickedButton{
+    background-color: #007bff;
+}
+
+.unClickedButton{
+    background-color: grey;
+}
+
+.waveButton{
+    margin-left: 10px;
+}
+
+/*
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #fff;
+  border-color: #fff;
+}
+
+.btn-secondary:active {
+  color: pink;
+  background-color: pink;
+  border-color: pink;
+}*/
