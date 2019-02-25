@@ -304,7 +304,7 @@ function drawLegend(data){
             legendRight = 'Agree'
         }
         else if(otherQuestion == 'Religious_Person'){
-            legendTitle = "Percentage of people seeing themselves as Religious"
+            legendTitle = "Percentage of Religious People"
             legendLeft = '0%'
             legendRight = '100%'
         }
